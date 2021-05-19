@@ -1,0 +1,55 @@
+\section{Model formulation}
+In the first part all random distributions, parameters, data, and decision variables necessary to solve the optimization problem are presented. After this the objective function and explain all constraints are shown. The result is a stochastic programming model for a planning horizon of $N$ day.
+\subsection{Notation}
+The following notations are used in the model.
+\begin{description}
+\item[Indices:] ~\par
+
+\textbf{$i , j \in R$} = locations to pickup or drop of cars.\\
+$t \in T$ = a periode in the planing horizion.\\
+$\omega \in \Omega $ = scenarios.
+\end{description}
+\begin{description}
+\item[Parameters and data:] ~\par
+$r_{i j}=$ revenue for a fullfiled demand from start location $i$ to end location $j$.\\
+$c_{i j}=$ cost of reallocating a car from start location $i$ to end location $j$.\\
+$r_{i j}=$ net revenue for satisfying a carsharing demand from start location $i$ to end location $j$.\\
+$o_{i j}=$ penalty cost for unfullfield demand from start location $i$ to end location $j$.\\
+$L_{i j 1}=$ number of requests by custemors in the first period $(t=1)$ to be available to move from start location $i$ to end location $j$.\\
+$d_{i j t}^{\omega}=$ number of customers that need a car to drive from start location $i$ to end location $j$ during period $t$ in scenario $\omega, t=2, \ldots, N $ .\\
+$S_{i 1}=$ number of vehicles at location $i$ at the beginning of period 1.\\
+$p^{\omega} = $ Probability of scenario $\omega$.
+\end{description}
+\begin{description}
+\item[Random distributions:] ~\par
+$\tilde{d}_{i j t}=$ random demand that denotes the number of customers needing transportation from start location $i$ to end location $j$ during period $t, t=2, \ldots, N ;$
+\end{description}
+\begin{description}
+\item[Decision variables:] ~\par
+$x_{i j t}^{\omega}=$ number of vehicles that are used by customers to drive from start location $i$ to end location $j$ in period $t$ in scenario $w, t=1,2, \ldots, N ;$\\
+$y_{i j t}^{\omega}=$ number of vehicles that are reallocated from start location $i$ to location $j$ in period $t$ in scenario $w, t=1,$ $2, \ldots, N$\\
+$S_{i t}^{\omega}=$ number of vehicles at location $i$ at the beginning of period $t$ in scenario $w, t=2, \ldots, N$\\
+$z_{i j t}^{\omega}=$ number of vehicle reservations that got cancelled from start location $i$ to end location $j$ in period $t$ in scenario $w, t=1,$ $2, \ldots, N$\\
+\end{description}
+\subsection{Penalty Cost}
+Penalty costs for a risk-neutral service provider are added to the model by \cite{Wei_1}. The penalty costs represent costs for the unmet demand. This factor is quite important because unmet demand plays a huge role in the mobility sector. If a car-sharing service provider rejects customers' reservations on their first trip or multiple times, the customer probably will not use the service again. This could not only influence the relationship between this specific customer and the car-sharing provider. If the customer shares his opinion with other possible customers, e.g., via social media, it could also influence the other possible customers and the brand image. Over the longer term, this could reduce the number of customers and reservation requests because customers will use more reliable services that have a better image. This leads to costs for the service provider.\\
+There are different ways to model the penalty costs. If the model should deal with uncertainty penalty costs, the costs must be part of the scenarios, and the distribution of the costs must be determined. The major problem is that this increases the scenario size and makes the calculation way more complex for a huge number of periods. That is why this approach is rejected. Another option is to set constant costs for every unmet demand independent of the start and end location. This is a very easy way and can be the right approach if unmet demand damage is the same at every location. If the cost of unmet demand depends on the area, every possible combination of start and end location needs its own cost for every unmet demand. In the case studie both options are solved and the solutions are compared. A factor that influences the penalty costs in a hughe way is the number of mobility competitors and alternative traveling options. If the number of competitors is very high, the penalty costs should be high because then customers have a lot of other travel options. On the other side, if there is no competitor, the penalty costs should also be high because the customers have no other option to travel. The risk, in this case, is that he will stop using public transportation and use a private car instead. So the costs should be low if the competition is not very high, but the customer still has other publication transport options to travel with if his reservation gets canceled.
+\subsection{Model}
+The optimization model for each period $t=1,2, \ldots, N ;$\\
+\begin{equation}
+h(x_{i j}^{\omega},y_{i j t}^{\omega},z_{i j t}^{\omega},d_{i j t}^{\omega}) = {Max }_{x_{i j t}^{\omega},y_{i j t}^{\omega},z_{i j t}^{\omega}}\sum_{i=1}^{R} \sum_{j=1}^{R} \sum_{t=1}^{T} \sum_{\omega=1}^{\Omega}(x_{i j t}^{\omega}\cdot r_{i j} - y_{i j t}^{\omega} \cdot c_{i j} - z_{i j t}^{\omega} \cdot o_{i j})\cdot p^{\omega}
+\end{equation}
+\begin{align}
+x_{i j 1}^{\omega} \leq L_{i j 1} & & i \in R ; j \in R \\
+x_{i j t}^{\omega} \leq d_{i j t}^{\omega} & & i \in R ; j \in R ; t=2,3, \ldots, N ; \omega \in \Omega \\
+z_{i j t}^{\omega} - x_{i j t}^{\omega} = d_{i j t}^{\omega} \\
+z_{i j 1}^{\omega} - x_{i j 1}^{\omega} = L_{i j 1} \\
+\sum_{j}\left(x_{i j t}^{\omega}+y_{i j t}^{\omega}\right)=S_{i t}^{\omega} & & i \in R ; t=2,3, \ldots, N ; \omega \in \Omega \\
+\sum_{j}\left(x_{i j 1}^{\omega}+y_{i j 1}^{\omega}\right)=S_{i 1} & & i \in R ; \omega \in \Omega \\
+\sum_{i}\left(x_{i j t}^{\omega}+y_{i j t}^{\omega}\right)=S_{j(t+1)}^{\omega} & & j \in R ; t=1,2, \ldots, N-1\\
+x_{i j t}^{\omega}, y_{i j t}^{\omega}, S_{i t}^{\omega},z_{i j 1}^{\omega}, \geq 0 & & i \in R ; j \in R ; t=1,2, \ldots, N ; \omega \in \Omega\\
+x_{i j t}^{\omega}, y_{i j t}^{\omega}, S_{i t}^{\omega},z_{i j 1}^{\omega}, \text { must be integers } & & i \in R ; j \in R ; t=1,2, \ldots, N ; \omega \in \Omega
+\end{align}
+\\
+The objective function is to maximize the profit of the model. The profit is calculated by multiplying the number of vehicles that are used by costumes with the revenue. From this value, all reallocation and penalty costs are subtracted. Constraint (1) and (2) state that the number of customers who drive a car from a location to another location in each period must be smaller or equal to the total demand for this location combination under each scenario. Constraint (3) and (4) say that the number of customers who drive a car from a location to another location plus the number of customers which reservation is canceled for the same location combination must be the same as the total demand for this location combination under each scenario and each period. Constraint (5) and (6) guarantee that the supply of a location can not be exceeded by the number of cars rented by customers and allocated in a period for all scenario. Constraint (8) says that the number of cars that arive at the end of a day at the location must be the same as the number of cars that are available at the next period (for each period and each scenario). The last two conditions (9) and (10) are for nonnegativity and integer properties.\\
+We see that this problem is a stochastic linear programming problem because of uncertain demand in the constraints. The problem is that we can deal with an infinite planning horizon, so we have truncated the horizon to a certain number (N). This can cause differences in the optimal solution compared to the infinite time horizon. For a marginal problem size, the problem can get solved with the simplex algorithm.

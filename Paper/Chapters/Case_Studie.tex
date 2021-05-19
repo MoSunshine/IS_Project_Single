@@ -1,0 +1,153 @@
+\section{Case Study}
+To solve the problem and test the quality and computation time of the solution a seven-stage network is generated. The model was implemented in the programming language Julia and solved with a cplex solver. It was tested on hardware with 16 GB memory and CPU with four 1.99 GHz cores.
+\subsection{Numerical Example}
+The matrices with the revenue per drive and the cost for allocation have the following values. Each unit in the matrix represents one dollar.
+\\
+\begin{equation*}
+r_{i j} =
+\begin{pmatrix}
+10&11& 9& 14\\
+12& 15& 10& 9\\
+12& 6 & 7 &9\\
+14 &12 &10& 8
+\end{pmatrix}
+\quad
+c_{i j} =
+\begin{pmatrix}
+0& 3& 4& 4\\
+3 &0 &4 &5\\
+4 &4& 0& 6\\
+4& 5& 6& 0\\
+\end{pmatrix}
+\end{equation*}
+\\
+In $t=1$ the demands for rides between each location pair and the number of vehicles located at each starting position are fixed and have the following value.
+\begin{equation*}
+L_{i j 1} =
+\begin{pmatrix}
+25 &20& 23& 16\\
+18& 23& 22& 21\\
+17&25& 19& 26\\
+19&25& 27& 16
+\end{pmatrix}
+\quad
+S_{i,1}=
+\begin{pmatrix}
+90\\
+100\\
+90\\
+90\\
+\end{pmatrix}
+\end{equation*}
+\\
+The following four matrixes describe the demand distribution. For each possible demand (low medium and high) is represented by a matrix $d_{i j t}^{\omega}$. The possibility for low demand is 40\%, medium demand is 20\%, and high demand is 40\%. Based on the matrices and the probabilities, the average demand for each location pair is calculated and shown in matrix $d_{i,j,k}$.
+\\
+\begin{equation*}
+p^{low} = 0.4\\
+\end{equation*}
+\begin{equation*}
+p^{medium} = 0.2\\
+\end{equation*}
+\begin{equation*}
+p^{high} = 0.4\\
+\end{equation*}
+
+\begin{equation*}
+d_{i j t}^{low} =
+\begin{pmatrix}
+17& 12& 15& 12\\
+9 &13& 10& 10\\
+6 &15 &17 &11\\
+10 &17& 21 &15\\
+\end{pmatrix}
+\quad
+d_{i j t}^{medium}
+\begin{pmatrix}
+26& 21& 24 &13\\
+20 &19& 27& 21\\
+14 &22 &19& 21\\
+17& 26& 27& 20\\
+\end{pmatrix}
+\end{equation*}
+\\
+\begin{equation*}
+d_{i j t}^{high}
+\begin{pmatrix}
+40 &35& 38& 29\\
+36& 35& 39& 42\\
+37 &39& 26 &46\\
+29& 40& 48& 30\\
+\end{pmatrix}
+\quad
+d_{i j t}=
+\begin{pmatrix}
+28&23&26&19\\
+22&23&25&25\\
+20&26&21&27\\
+19&28&33&22\\
+\end{pmatrix}
+\end{equation*}
+\\
+To model the penalty cost for unmet demand two possibilities exist in the first case the penalty costs for every location pair has the same value. So for penalty costs of 10 the matrix looks like this:
+\\
+\begin{equation*}
+o_{i j}=
+\begin{pmatrix}
+10& 10& 10& 10\\
+10 &10 &10 &10\\
+10&10& 10&10\\
+10& 10& 10& 10\\
+\end{pmatrix}
+\end{equation*}
+\\
+In the other case penalty costs are individual per location pair. The matrix looks like this:
+\begin{equation*}
+o_{i j}=
+\begin{pmatrix}
+15&9&8&7\\
+11&14&12&13\\
+11&12&9&13\\
+17&18&12&15\\
+\end{pmatrix}
+\end{equation*}
+\\
+\subsection{Results}
+The computition of the model is highly fast, the results were calculated in seconds. The solution of the numerical example in case of same penalty costs for every location pair is shown in Table \ref{tab:results}. The revenue for all penalty costs betwen \$0 and \$80 was calculated. The revenue decreases when the penalty costs increase. The tabel shows that the first negative revenue is for penalty cost of \$50. A more detailed analysis shows that the last positive revenue is at \$44, so until this point the service is profitable. \\
+\begin{table}[h]
+\centering
+\begin{tabular}{c|r}
+penalty costs in \$ & revenue in \$\\
+\hline
+0 & 23,002.21 \\
+10 & 17,746.21 \\
+20 & 12,490.21 \\
+30 & 7,234.21 \\
+40 & 1,978.21 \\
+50 & -3,277.78 \\
+60 & -8,533.78\\
+70 & -13,789.78\\
+80 & -19,045.78\\
+\end{tabular}
+\caption{Results}
+\label{tab:results}
+\end{table}
+\\
+The result for the example with individual penalty cost is \$16,998.25. The model has a positive revenue and is profitable. The results show that a car service sharing provider can calculate the revenue of his service in this way and can check if his service is lucrative. Other results of the model are the decisions the service provider has to make in stage one. As mentioned in Section~\ref{Scenario}., these are the decisions a provider has to make in the real world. The following matrices show how many reservations the service provider should accept for each location pair and how he should reallocate the other vehicles if he uses individual penalty cost.
+\\
+\begin{equation*}
+x_{i j 1}=
+\begin{pmatrix}
+25 &20& 23& 16\\
+18 &23 &22 &21\\
+17& 25& 19& 26\\
+19& 25 &27 &16
+\end{pmatrix}
+\quad
+y_{i j 1}=
+\begin{pmatrix}
+6 &0 &0&0\\
+16& 0 &0 &0\\
+0 &0 &3 &0\\
+0& 0& 0& 3\\
+\end{pmatrix}
+\end{equation*}

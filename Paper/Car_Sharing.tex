@@ -1,0 +1,110 @@
+\documentclass[11pt]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsthm}
+\usepackage[centerdot]{mathtools}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage[ruled]{algorithm2e}
+\SetKw{Continue}{continue}
+\SetKw{Null}{null}
+\SetKw{Break}{break}
+\usepackage[textsize=tiny]{todonotes}
+\usepackage[normalem]{ulem}
+\usepackage{float}
+\usepackage{subfig}
+\usepackage{pgfplots}
+\usepackage{booktabs,caption}
+\usepackage[flushleft]{threeparttable}
+
+\newcommand{\daniel}[1]{\todo[linecolor=blue,backgroundcolor=blue!25]{#1}}
+\newcommand{\david}[1]{\todo[linecolor=orange,backgroundcolor=orange!25]{#1}}
+\newcommand{\laura}[1]{\todo[linecolor=green,backgroundcolor=green!25]{#1}}
+\newcommand{\moritz}[1]{\todo[linecolor=red,backgroundcolor=red!25]{#1}}
+\newcommand{\changedByLP}[1]{\textcolor{green!50!black}{#1}}
+\newcommand{\changedByDP}[1]{\textcolor{blue!50!black}{#1}}
+\newcommand{\changedByDK}[1]{\textcolor{orange!50!black}{#1}}
+\newcommand{\changedByMW}[1]{\textcolor{red!50!black}{#1}}
+
+\DeclareMathOperator{\cost}{cost}
+
+%\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{property}[theorem]{Property}
+
+\title{Optimizing the allocation of vehicles for a Car  Sharing System}
+%alternative: The all optimal integer flow problem and its applications.
+\author{ Moritz Wegener  7378345}  % in alphabetical order
+%\keywords{All integer optimal flow problem; networkflow; minimum cost flow problem}
+
+
+\begin{document}
+
+\renewcommand{\labelenumi}{\alph{enumi})}		
+
+\date{\today}
+
+\maketitle   
+% ist eine vorgegebene Funktion von Latex, die die Variablen automatisch % setzt, automatisch generierte Titelseite
+
+%Logo der Universität zu Köln
+{\centering
+	\includegraphics[scale =0.1]{Universitaet_zu_Koeln-Siegel.jpg}
+	
+	\vspace{2cm}
+	\begin{center}
+		Faculty of Management, Economics and Social Science \\
+		Seminar für Supply Chain Management \& Management Science \\
+		University of Cologne \\
+		
+	\end{center}
+	
+	
+	%keine Seitennummerierung
+	\thispagestyle{empty}
+	
+	
+	
+	
+	%Seite frei
+	
+}
+
+\newpage
+\thispagestyle{empty}
+\quad
+\newpage
+\thispagestyle{empty}
+
+\author{ Moritz Wegener  } 
+
+
+\maketitle
+
+\begin{abstract} 
+This survey presents a stochastic optimization framework to solve the dynamic vehicle allocation problem. The car-sharing service provider needs to manage and determine the optimal number of vehicles at each location at every time in every area. In every time period he has to decide how many cars he wants to rent to customers and how many cars he wants to relocate. The service provider does not know the demand in each period, so the demand is uncertain for him. A multistage stochastic linear programming with uncertain demand is formulated to solve the problem and a numerical example is created and solved.
+\end{abstract}
+
+ %Section1 Introduction
+\input{Chapters/introduction.tex}
+\input{Chapters/problem.tex}
+\input{Chapters/scenario_generation.tex}
+\input{Chapters/model.tex}
+\input{Chapters/Case_Studie.tex}
+\input{Chapters/Conclusion.tex}
+\newpage
+ \bibliographystyle{plain}
+ \bibliography{libary.bib}
+
+
+\end{document}
+
